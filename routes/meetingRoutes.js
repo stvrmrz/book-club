@@ -1,23 +1,19 @@
 const router = require('express').Router();
-const authRoutes = require('./authRoutes');
-const bookRoutes = require('./bookRoutes');
-const clubRoutes = require('./clubRoutes');
-const meetingRoutes = require('./meetingRoutes');
-const homeRoutes = require('./homeRoutes');
+const meetingController = require('../controllers/meetingController');
 
-// Use auth routes for authentication-related endpoints
-router.use('/auth', authRoutes);
+// Route to get all meetings
+router.get('/', meetingController.getAllMeetings);
 
-// Use book routes for book-related endpoints
-router.use('/books', bookRoutes);
+// Route to get a specific meeting by ID
+router.get('/:id', meetingController.getMeetingById);
 
-// Use club routes for club-related endpoints
-router.use('/clubs', clubRoutes);
+// Route to create a new meeting
+router.post('/', meetingController.createMeeting);
 
-// Use meeting routes for meeting-related endpoints
-router.use('/meetings', meetingRoutes);
+// Route to update a meeting by ID
+router.put('/:id', meetingController.updateMeeting);
 
-// Use home routes for the home page
-router.use('/', homeRoutes);
+// Route to delete a meeting by ID
+router.delete('/:id', meetingController.deleteMeeting);
 
 module.exports = router;
