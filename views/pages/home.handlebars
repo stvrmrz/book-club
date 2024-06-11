@@ -13,8 +13,8 @@
     <hr>
     <h2>Search for Books</h2>
     <form action="/books/search" method="GET">
-      <input type="text" name="query" placeholder="Search for books" required>
-      <button type="submit">Search</button>
+        <input type="text" name="query" placeholder="Search for books" required>
+        <button type="submit">Search</button>
     </form>
     <hr>
     <h2>Featured Clubs</h2>
@@ -22,9 +22,8 @@
         <div class="club">
             <h3>{{this.name}}</h3>
             <p>{{this.description}}</p>
-            <a href="/clubs/{{this.id}}">View Club</a>
+            <a class="button" href="/clubs/{{this.id}}">View Club</a>
         </div>
     {{/each}}
 </body>
 </html>
-

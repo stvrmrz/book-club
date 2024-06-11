@@ -1,82 +1,79 @@
-const { Club, User, Book } = require('../models');
+const { Meeting } = require('../models');
 
-// Function to get all clubs
-const getAllClubs = async (req, res) => {
+// Function to get all meetings
+const getAllMeetings = async (req, res) => {
   try {
-    console.log("getAllClubs hit"); // Debugging log
-    const clubs = await Club.findAll({
-      include: [{ model: User, as: 'owner' }]
-    });
-    console.log("Clubs data:", JSON.stringify(clubs, null, 2)); // Log the data being passed
-    res.render('pages/clubs', { title: 'Book Clubs', clubs: clubs.map(club => club.toJSON()) });
+    const meetings = await Meeting.findAll();
+    res.json(meetings);
   } catch (err) {
-    console.error(err);
     res.status(500).json(err);
   }
 };
 
-// Function to get a specific club by ID
-const getClubById = async (req, res) => {
+// Function to get a specific meeting by ID
+const getMeetingById = async (req, res) => {
   try {
-    console.log("getClubById hit with ID:", req.params.id); // Debugging log
-    const club = await Club.findByPk(req.params.id, {
-      include: [
-        { model: User, as: 'owner' },
-        { model: Book, as: 'books' }
-      ]
-    });
-    if (!club) {
-      console.log("Club not found"); // Debugging log
-      res.status(404).json({ message: 'Club not found' });
+    const meeting = await Meeting.findByPk(req.params.id);
+    if (!meeting) {
+      res.status(404).json({ message: 'Meeting not found' });
       return;
     }
-    console.log("Rendering club page", club); // Debugging log
-    res.render('pages/club', { title: club.name, club });
+    res.json(meeting);
   } catch (err) {
-    console.error(err);
     res.status(500).json(err);
   }
 };
 
-// Function to create a new club
-const createClub = async (req, res) => {
+// Function to create a new meeting
+const createMeeting = async (req, res) => {
   try {
-    console.log("createClub hit"); // Debugging log
-    const newClub = await Club.create({
-      name: req.body.name,
-      description: req.body.description,
-      userId: req.session.userId // Assuming user is logged in and their ID is stored in session
-    });
-    res.redirect('/clubs');
+    const newMeeting = await Meeting.create(req.body);
+    res.status(201).json(newMeeting);
   } catch (err) {
-    console.error(err);
     res.status(500).json(err);
   }
 };
 
-// Function to delete a club by ID
-const deleteClub = async (req, res) => {
+// Function to update a meeting by ID
+const updateMeeting = async (req, res) => {
   try {
-    console.log("deleteClub hit with ID:", req.params.id); // Debugging log
-    const result = await Club.destroy({
+    const updatedMeeting = await Meeting.update(req.body, {
       where: {
         id: req.params.id
       }
     });
-    if (result === 0) {
-      res.status(404).json({ message: 'Club not found' });
-    } else {
-      res.redirect('/clubs');
+    if (!updatedMeeting[0]) {
+      res.status(404).json({ message: 'Meeting not found' });
+      return;
     }
+    res.json({ message: 'Meeting updated' });
   } catch (err) {
-    console.error(err);
+    res.status(500).json(err);
+  }
+};
+
+// Function to delete a meeting by ID
+const deleteMeeting = async (req, res) => {
+  try {
+    const result = await Meeting.destroy({
+      where: {
+        id: req.params.id
+      }
+    });
+    if (!result) {
+      res.status(404).json({ message: 'Meeting not found' });
+      return;
+    }
+    res.json({ message: 'Meeting deleted' });
+  } catch (err) {
     res.status(500).json(err);
   }
 };
 
 module.exports = {
-  getAllClubs,
-  getClubById,
-  createClub,
-  deleteClub
+  getAllMeetings,
+  getMeetingById,
+  createMeeting,
+  updateMeeting,
+  deleteMeeting
 };
