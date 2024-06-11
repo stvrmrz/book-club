@@ -1,54 +1,37 @@
 const express = require('express');
 const session = require('express-session');
 const exphbs = require('express-handlebars');
-const SequelizeStore = require('connect-session-sequelize')(session.Store);
-const routes = require('./routes'); // Importing routes
-const { sequelize } = require('./models'); // Importing Sequelize instance from models/index.js
-const path = require('path');
-const methodOverride = require('method-override'); // Importing method-override
-const socketio = require('socket.io');
-
+const sequelize = require('./config/connection');
 require('dotenv').config();
 
+// Initialize the Express application
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
+const hbs = exphbs.create();
 
-const hbs = exphbs.create({});
-
-const sess = {
-  secret: process.env.SESSION_SECRET,
-  cookie: {},
-  resave: false,
-  saveUninitialized: true,
-  store: new SequelizeStore({
-    db: sequelize
-  })
-};
-
-app.use(session(sess));
-
+// Set up Handlebars as the template engine
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
-app.set('views', path.join(__dirname, 'views'));
 
-// Move methodOverride higher in the middleware chain
-app.use(methodOverride('_method')); // Adding method-override middleware
+// Middleware to parse JSON and URL-encoded data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
 
-// Middleware to log all requests
-app.use((req, res, next) => {
-  console.log(`${req.method} ${req.url}`);
-  next();
-});
+// Configure session middleware
+app.use(session({
+  secret: process.env.SESSION_SECRET, // Use environment variable for secret key
+  resave: false, // Don't save session if unmodified
+  saveUninitialized: true, // Save uninitialized session
+  cookie: { secure: false } // Set to true if using HTTPS
+}));
 
-app.use(routes); // Using routes
+// Placeholder routes
+app.use('/auth', (req, res) => res.send('Auth route placeholder'));
+app.use('/books', (req, res) => res.send('Books route placeholder'));
+app.use('/clubs', (req, res) => res.send('Clubs route placeholder'));
+app.use('/meetings', (req, res) => res.send('Meetings route placeholder'));
 
+// Sync database and start the server
 sequelize.sync({ force: false }).then(() => {
-  const server = app.listen(PORT, () => console.log(`Now listening on port ${PORT}`));
-  const io = socketio(server);
-  io.on('connection', (socket) => {
-    console.log('New WS Connection...');
-  });
+  app.listen(PORT, () => console.log(`Now listening on port ${PORT}`));
 });
