@@ -35,9 +35,8 @@ User.init(
 );
 
 User.associate = (models) => {
-  User.hasMany(models.Club, {
-    foreignKey: 'userId',
-    as: 'clubs'
+  User.hasMany(models.Book, {
+    foreignKey: 'userId'
   });
 };
 

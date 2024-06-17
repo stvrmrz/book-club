@@ -8,22 +8,15 @@
 </head>
 <body>
     {{> navbar}}
-    <h1>Welcome to Book Club Manager</h1>
-    <p>Your go-to platform for managing book clubs, reading lists, meetings, and discussions.</p>
+    <h1>Welcome to Book Manager</h1>
+    <p>Your go-to platform for managing your book lists.</p>
     <hr>
-    <h2>Search for Books</h2>
-    <form action="/books/search" method="GET">
-      <input type="text" name="query" placeholder="Search for books" required>
-      <button type="submit">Search</button>
+    <h2>Manage Your Books</h2>
+    <form action="/books" method="POST">
+      <input type="text" name="title" placeholder="Book title" required>
+      <input type="text" name="author" placeholder="Book author" required>
+      <textarea name="description" placeholder="Book description"></textarea>
+      <button type="submit">Add Book</button>
     </form>
-    <hr>
-    <h2>Featured Clubs</h2>
-    {{#each clubs}}
-        <div class="club">
-            <h3>{{this.name}}</h3>
-            <p>{{this.description}}</p>
-            <a href="/clubs/{{this.id}}">View Club</a>
-        </div>
-    {{/each}}
 </body>
 </html>

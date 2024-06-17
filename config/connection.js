@@ -9,10 +9,10 @@ if (process.env.DATABASE_URL) {
     dialectOptions: {
       ssl: {
         require: true,
-        rejectUnauthorized: false // This is important for self-signed certificates
+        rejectUnauthorized: false
       }
     },
-    logging: console.log // Optional: You can set this to false to disable logging
+    logging: console.log
   });
 } else {
   sequelize = new Sequelize(
@@ -28,7 +28,7 @@ if (process.env.DATABASE_URL) {
           rejectUnauthorized: false
         }
       },
-      logging: console.log // Optional: You can set this to false to disable logging
+      logging: console.log
     }
   );
 }

@@ -23,10 +23,10 @@ Book.init(
       type: DataTypes.STRING,
       allowNull: true
     },
-    clubId: {
+    userId: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'club',
+        model: 'user',
         key: 'id'
       }
     }
@@ -38,9 +38,8 @@ Book.init(
 );
 
 Book.associate = (models) => {
-  Book.belongsTo(models.Club, {
-    foreignKey: 'clubId',
-    as: 'club'
+  Book.belongsTo(models.User, {
+    foreignKey: 'userId'
   });
 };
 

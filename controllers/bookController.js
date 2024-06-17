@@ -1,21 +1,5 @@
-const { Book, Club } = require('../models');
+const { Book } = require('../models');
 const axios = require('axios');
-
-// Function to search for books
-const searchBooks = async (req, res) => {
-  try {
-    const query = req.query.query; // Use query string parameter
-    const response = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}`);
-    const books = response.data.items.map(item => ({
-      title: item.volumeInfo.title,
-      author: item.volumeInfo.authors ? item.volumeInfo.authors.join(', ') : 'Unknown Author',
-      description: item.volumeInfo.description || 'No description available'
-    }));
-    res.render('pages/searchResults', { title: 'Search Results', books });
-  } catch (err) {
-    res.status(500).json(err);
-  }
-};
 
 const createBook = async (req, res) => {
   try {
@@ -26,12 +10,9 @@ const createBook = async (req, res) => {
   }
 };
 
-const getBooksByClub = async (req, res) => {
+const getBooks = async (req, res) => {
   try {
-    const books = await Book.findAll({
-      where: { clubId: req.params.clubId },
-      include: [Club]
-    });
+    const books = await Book.findAll();
     res.status(200).json(books);
   } catch (err) {
     res.status(500).json(err);
@@ -39,7 +20,6 @@ const getBooksByClub = async (req, res) => {
 };
 
 module.exports = {
-  searchBooks,
   createBook,
-  getBooksByClub
+  getBooks
 };

@@ -1,13 +1,10 @@
-# Book Talk
+# Book Manager
 
 ## Description
-A platform for book clubs to manage reading lists, schedule meetings, and discuss books.
+A platform for managing book lists.
 
 ## Features
-- Users can sign up, log in, and join or create book clubs.
-- Add books to the club’s reading list.
-- Schedule and manage book club meetings.
-- Comment and discuss books within the club.
+- Users can sign up, log in, and manage their book lists.
 
 ## Technologies Used
 - Node.js
@@ -15,7 +12,6 @@ A platform for book clubs to manage reading lists, schedule meetings, and discus
 - Handlebars.js
 - PostgreSQL
 - Sequelize
-- Socket.io
 - bcrypt
 - jsonwebtoken
 
@@ -28,11 +24,10 @@ A platform for book clubs to manage reading lists, schedule meetings, and discus
 
 ## Usage
 - Navigate to the home page and sign up or log in.
-- Create or join a book club.
-- Add books, schedule meetings, and join discussions.
+- Add books and manage your book list.
 
 ## Screenshot
-![Book Talk Screenshot](screenshot.png)
+![Book Manager Screenshot](screenshot.png)
 
 ## Link to Deployed Application
-[Book Talk](https://book-club-manager.example.com)
+[Book Manager](https://book-manager.example.com)

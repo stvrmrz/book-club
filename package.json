@@ -1,7 +1,7 @@
 {
   "name": "booktalk",
   "version": "1.0.0",
-  "description": "Book Club Manager-Project 2",
+  "description": "Book Manager",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
