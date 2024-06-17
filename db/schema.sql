@@ -1,31 +1,10 @@
-'use strict';
+DROP TABLE IF EXISTS users CASCADE;
 
-module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    const user = await queryInterface.bulkInsert('users', [
-      {
-        username: 'john_doe',
-        email: 'john@example.com',
-        password: 'password', // In a real application, use hashed passwords
-        createdAt: new Date(),
-        updatedAt: new Date()
-      }
-    ], { returning: true });
-
-    await queryInterface.bulkInsert('books', [
-      {
-        title: 'Dune',
-        author: 'Frank Herbert',
-        description: 'A science fiction novel.',
-        userId: user[0].id,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      }
-    ], {});
-  },
-
-  down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete('books', null, {});
-    await queryInterface.bulkDelete('users', null, {});
-  }
-};
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  username VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  createdAt TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  updatedAt TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);

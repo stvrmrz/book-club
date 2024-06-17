@@ -9,14 +9,8 @@
 <body>
     {{> navbar}}
     <h1>Welcome to Book Manager</h1>
-    <p>Your go-to platform for managing your book lists.</p>
-    <hr>
-    <h2>Manage Your Books</h2>
-    <form action="/books" method="POST">
-      <input type="text" name="title" placeholder="Book title" required>
-      <input type="text" name="author" placeholder="Book author" required>
-      <textarea name="description" placeholder="Book description"></textarea>
-      <button type="submit">Add Book</button>
-    </form>
+    <p>Your go-to platform for managing your account.</p>
+    <a href="/auth/signup">Sign Up</a>
+    <a href="/auth/login">Login</a>
 </body>
 </html>

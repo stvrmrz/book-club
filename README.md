@@ -1,10 +1,10 @@
-# Book Manager
+# User Authentication Manager
 
 ## Description
-A platform for managing book lists.
+A platform for user authentication where users can sign up and log in.
 
 ## Features
-- Users can sign up, log in, and manage their book lists.
+- Users can sign up, log in.
 
 ## Technologies Used
 - Node.js
@@ -24,10 +24,9 @@ A platform for managing book lists.
 
 ## Usage
 - Navigate to the home page and sign up or log in.
-- Add books and manage your book list.
 
 ## Screenshot
-![Book Manager Screenshot](screenshot.png)
+![User Authentication Manager Screenshot](screenshot.png)
 
 ## Link to Deployed Application
-[Book Manager](https://book-manager.example.com)
+[User Authentication Manager](https://user-auth-manager.example.com)
