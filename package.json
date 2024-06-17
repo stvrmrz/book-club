@@ -1,5 +1,5 @@
 {
-  "name": "booktalk",
+  "name": "user-authentication-manager",
   "version": "1.0.0",
   "description": "User Authentication Manager",
   "main": "server.js",

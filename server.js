@@ -3,7 +3,7 @@ const session = require('express-session');
 const exphbs = require('express-handlebars');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const routes = require('./routes'); // Importing routes
-const { sequelize, User, Book } = require('./models'); // Importing Sequelize instance and models
+const { sequelize } = require('./models'); // Importing Sequelize instance from models/index.js
 const path = require('path');
 const methodOverride = require('method-override'); // Importing method-override
 
@@ -45,15 +45,13 @@ app.use(routes); // Using routes
 
 const startServer = async () => {
   try {
-    // Sync database models in the correct order
+    // Sync database models
     await sequelize.sync({ force: true }); // Force sync for development, set to false for production
-    await User.sync();
-    await Book.sync();
 
     console.log('Database synced successfully.');
 
     // Start the server
-    const server = app.listen(PORT, () => console.log(`Now listening on port ${PORT}`));
+    const server = app.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));
   } catch (error) {
     console.error('Unable to start the server:', error);
   }
