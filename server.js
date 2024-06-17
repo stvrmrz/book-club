@@ -3,10 +3,9 @@ const session = require('express-session');
 const exphbs = require('express-handlebars');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const routes = require('./routes'); // Importing routes
-const { sequelize } = require('./models'); // Importing Sequelize instance from models/index.js
+const { sequelize, User, Book } = require('./models'); // Importing Sequelize instance and models
 const path = require('path');
 const methodOverride = require('method-override'); // Importing method-override
-const socketio = require('socket.io');
 
 require('dotenv').config();
 
@@ -44,10 +43,20 @@ app.use((req, res, next) => {
 
 app.use(routes); // Using routes
 
-sequelize.sync({ force: false }).then(() => {
-  const server = app.listen(PORT, () => console.log(`Now listening on port ${PORT}`));
-  const io = socketio(server);
-  io.on('connection', (socket) => {
-    console.log('New WS Connection...');
-  });
-});
+const startServer = async () => {
+  try {
+    // Sync database models in the correct order
+    await sequelize.sync({ force: true }); // Force sync for development, set to false for production
+    await User.sync();
+    await Book.sync();
+
+    console.log('Database synced successfully.');
+
+    // Start the server
+    const server = app.listen(PORT, () => console.log(`Now listening on port ${PORT}`));
+  } catch (error) {
+    console.error('Unable to start the server:', error);
+  }
+};
+
+startServer();
