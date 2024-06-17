@@ -4,8 +4,14 @@ const jwt = require('jsonwebtoken');
 
 const signup = async (req, res) => {
   try {
-    const newUser = await User.create(req.body);
-    res.status(200).json(newUser);
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const newUser = await User.create({
+      username: req.body.username,
+      email: req.body.email,
+      password: hashedPassword
+    });
+    // Redirect to login page after successful signup
+    res.redirect('/auth/login');
   } catch (err) {
     res.status(500).json(err);
   }
@@ -28,7 +34,8 @@ const login = async (req, res) => {
     }
 
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '2h' });
-    res.json({ user, token });
+    // Redirect to a dashboard or home page after successful login
+    res.redirect('/');
   } catch (err) {
     res.status(400).json(err);
   }
