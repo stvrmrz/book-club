@@ -1,7 +1,7 @@
-# User Authentication Manager
+# Book Club Manager
 
 ## Description
-A platform for user authentication where users can sign up and log in.
+A platform for book fans to share, discover, and discuss any topics about the subject matter that means most to them. So sign up and log in!
 
 ## Features
 - Users can sign up, log in.
