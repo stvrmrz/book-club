@@ -26,7 +26,7 @@ A platform for user authentication where users can sign up and log in.
 - Navigate to the home page and sign up or log in.
 
 ## Screenshot
-![User Authentication Manager Screenshot](screenshot.png)
+![Book Club Manager Screenshot](/assets/demo.png)
 
 ## Link to Deployed Application
-[User Authentication Manager](https://user-auth-manager.example.com)
+[Book Club Manager](https://book-club-vaff.onrender.com/)
