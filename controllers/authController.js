@@ -10,7 +10,6 @@ const signup = async (req, res) => {
       email: req.body.email,
       password: hashedPassword
     });
-    // Redirect to login page after successful signup
     res.redirect('/auth/login');
   } catch (err) {
     res.status(500).json(err);
@@ -33,15 +32,28 @@ const login = async (req, res) => {
       return;
     }
 
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '2h' });
-    // Redirect to a dashboard or home page after successful login
-    res.redirect('/');
+    req.session.save(() => {
+      req.session.userId = user.id;
+      req.session.loggedIn = true;
+      res.redirect('/');
+    });
   } catch (err) {
     res.status(400).json(err);
   }
 };
 
+const logout = (req, res) => {
+  if (req.session.loggedIn) {
+    req.session.destroy(() => {
+      res.status(204).end();
+    });
+  } else {
+    res.status(404).end();
+  }
+};
+
 module.exports = {
   signup,
-  login
+  login,
+  logout
 };
