@@ -2,10 +2,10 @@ const express = require('express');
 const session = require('express-session');
 const exphbs = require('express-handlebars');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
-const routes = require('./routes'); // Importing routes
-const { sequelize } = require('./models'); // Importing Sequelize instance from models/index.js
+const routes = require('./routes');
+const sequelize = require('./config/connection'); // Corrected import for the database connection
 const path = require('path');
-const methodOverride = require('method-override'); // Importing method-override
+const methodOverride = require('method-override');
 
 require('dotenv').config();
 
@@ -30,7 +30,7 @@ app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
 
-app.use(methodOverride('_method')); // Adding method-override middleware
+app.use(methodOverride('_method'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -41,17 +41,20 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(routes); // Using routes
+// Middleware to check if the user is logged in
+app.use((req, res, next) => {
+  res.locals.loggedIn = req.session.loggedIn;
+  next();
+});
+
+app.use(routes);
 
 const startServer = async () => {
   try {
-    // Sync database models
-    await sequelize.sync({ force: true }); // Force sync for development, set to false for production
-
+    await sequelize.sync({ force: true });
     console.log('Database synced successfully.');
 
-    // Start the server
-    const server = app.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));
+    app.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));
   } catch (error) {
     console.error('Unable to start the server:', error);
   }
