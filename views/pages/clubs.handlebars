@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{title}}</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  {{> navbar}}
+  <h1>Book Clubs</h1>
+  {{#if clubs.length}}
+    <ul>
+      {{#each clubs}}
+        <li>
+          <h2>{{this.name}}</h2>
+          <p>{{this.description}}</p>
+        </li>
+      {{/each}}
+    </ul>
+  {{else}}
+    <p>No book clubs available.</p>
+  {{/if}}
+</body>
+</html>
