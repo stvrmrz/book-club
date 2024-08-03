@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{title}}</title>
-    <link rel="stylesheet" href="/css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{title}}</title>
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    {{> navbar}}
-    <h1>Welcome to Book Club Manager</h1>
-    <p>Your go-to platform for managing your book club account.</p>
-    <a href="/auth/signup">Sign Up</a>
-    <a href="/auth/login">Login</a>
+  {{> navbar}}
+  <h1>Welcome to Book Club Manager</h1>
+  <p>Your go-to platform for managing your book club account.</p>
+  {{#if loggedIn}}
+    <p>Welcome back, {{username}}!</p>
+    <a href="/clubs">View Book Clubs</a>
+  {{else}}
+    <a href="/auth/signup" class="button">Sign Up</a>
+    <a href="/auth/login" class="button">Login</a>
+  {{/if}}
 </body>
 </html>
