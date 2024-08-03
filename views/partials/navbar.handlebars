@@ -1,8 +1,13 @@
 <nav>
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/auth/login">Login</a></li>
-        <li><a href="/auth/signup">Signup</a></li>
-        <li><a href="/clubs">Clubs</a></li>
-    </ul>
+  <ul>
+    <li><a href="/">Home</a></li>
+    {{#if loggedIn}}
+      <li><a href="/clubs">Clubs</a></li>
+      <li><a href="/auth/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></li>
+      <form id="logout-form" action="/auth/logout" method="POST" style="display: none;"></form>
+    {{else}}
+      <li><a href="/auth/login">Login</a></li>
+      <li><a href="/auth/signup">Signup</a></li>
+    {{/if}}
+  </ul>
 </nav>
