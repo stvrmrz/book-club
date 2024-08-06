@@ -2,17 +2,25 @@ const express = require('express');
 const session = require('express-session');
 const exphbs = require('express-handlebars');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
-const routes = require('./routes');
-const sequelize = require('./config/connection');
 const path = require('path');
 const methodOverride = require('method-override');
-
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const hbs = exphbs.create({});
+const { Sequelize } = require('sequelize');
+
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  dialect: 'postgres',
+  protocol: 'postgres',
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false
+    }
+  }
+});
 
 const sess = {
   secret: process.env.SESSION_SECRET,
@@ -26,6 +34,7 @@ const sess = {
 
 app.use(session(sess));
 
+const hbs = exphbs.create({});
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
@@ -40,24 +49,17 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use((req, res, next) => {
-  res.locals.loggedIn = req.session.loggedIn;
-  next();
-});
-
+const routes = require('./routes');
 app.use(routes);
 
 const startServer = async () => {
   try {
-    console.log('Attempting to authenticate database connection...');
     await sequelize.authenticate();
-    console.log('Database connection authenticated successfully.');
-    
-    console.log('Attempting to sync database...');
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ force: false });
+
     console.log('Database synced successfully.');
 
-    app.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));
+    const server = app.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));
   } catch (error) {
     console.error('Unable to start the server:', error);
   }
