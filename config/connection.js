@@ -2,7 +2,12 @@ const Sequelize = require('sequelize');
 require('dotenv').config();
 
 let sequelize;
+
+console.log("DB_HOST:", process.env.DB_HOST);
+console.log("DB_NAME:", process.env.DB_NAME);
+
 if (process.env.DATABASE_URL) {
+  console.log("Using DATABASE_URL");
   sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'postgres',
     protocol: 'postgres',
@@ -15,6 +20,7 @@ if (process.env.DATABASE_URL) {
     logging: console.log
   });
 } else {
+  console.log("Using individual DB environment variables");
   sequelize = new Sequelize(
     process.env.DB_NAME,
     process.env.DB_USER,

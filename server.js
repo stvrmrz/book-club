@@ -49,9 +49,12 @@ app.use(routes);
 
 const startServer = async () => {
   try {
+    console.log('Attempting to authenticate database connection...');
     await sequelize.authenticate();
+    console.log('Database connection authenticated successfully.');
+    
+    console.log('Attempting to sync database...');
     await sequelize.sync({ force: true });
-
     console.log('Database synced successfully.');
 
     app.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));
