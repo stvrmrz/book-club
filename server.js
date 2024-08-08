@@ -81,13 +81,14 @@ app.use('/clubs', clubRoutes);
 const startServer = async () => {
   try {
     await sequelize.authenticate();
+    console.log('Database connection has been established successfully.');
     await sequelize.sync({ force: false });
 
     console.log('Database synced successfully.');
 
     const server = app.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));
   } catch (error) {
-    console.error('Unable to start the server:', error);
+    console.error('Unable to start the server:', error.message, error.stack);
   }
 };
 

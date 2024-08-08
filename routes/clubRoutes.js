@@ -9,7 +9,7 @@ router.get('/', isLoggedIn, async (req, res) => {
     console.log('Clubs fetched successfully:', clubs);
     res.render('pages/clubs', { title: 'Book Clubs', clubs });
   } catch (error) {
-    console.error('Error fetching clubs:', error);
+    console.error('Error fetching clubs:', error.message, error.stack);
     res.status(500).json({ error: 'Failed to fetch clubs' });
   }
 });
@@ -26,7 +26,7 @@ router.post('/new', isLoggedIn, async (req, res) => {
     await Club.create({ name, description, userId: req.session.user.id });
     res.redirect('/clubs');
   } catch (error) {
-    console.error('Error creating club:', error);
+    console.error('Error creating club:', error.message, error.stack);
     res.status(500).json({ error: 'Failed to create club' });
   }
 });
