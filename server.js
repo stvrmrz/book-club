@@ -32,7 +32,9 @@ const dbConfig = isProduction ? {
 
 console.log('DB Connection Details:', isProduction ? process.env.DATABASE_URL : dbConfig);
 
-const sequelize = new Sequelize(isProduction ? process.env.DATABASE_URL : dbConfig);
+const sequelize = isProduction
+  ? new Sequelize(process.env.DATABASE_URL, dbConfig)
+  : new Sequelize(dbConfig);
 
 const sess = {
   secret: process.env.SESSION_SECRET,
