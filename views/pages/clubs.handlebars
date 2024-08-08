@@ -8,10 +8,8 @@
 </head>
 <body>
   {{> navbar}}
-  <h1>Book Clubs</h1>
-  {{#if user}}
-    <a href="/clubs/new" class="button">Add New Club</a>
-  {{/if}}
+  <h1>{{title}}</h1>
+  
   {{#if clubs.length}}
     <ul>
       {{#each clubs}}
@@ -24,5 +22,7 @@
   {{else}}
     <p>No book clubs available.</p>
   {{/if}}
+
+  <a href="/clubs/new" class="button">Add New Club</a>
 </body>
 </html>
