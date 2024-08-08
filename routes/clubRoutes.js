@@ -13,7 +13,7 @@ router.get('/', isLoggedIn, async (req, res) => {
   }
 });
 
-// Route to render new club form
+// Route to render the form for adding a new club
 router.get('/new', isLoggedIn, (req, res) => {
   res.render('pages/newClub', { title: 'New Club' });
 });
@@ -24,7 +24,7 @@ router.post('/', isLoggedIn, async (req, res) => {
     const newClub = await Club.create({
       name: req.body.name,
       description: req.body.description,
-      userId: req.session.userId // Associate club with the logged-in user
+      userId: req.session.user.id // Ensure the club is associated with the logged-in user
     });
     res.redirect('/clubs');
   } catch (error) {
