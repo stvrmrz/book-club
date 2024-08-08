@@ -6,6 +6,7 @@ const { isLoggedIn } = require('../middlewares/authMiddleware'); // Middleware t
 router.get('/', isLoggedIn, async (req, res) => {
   try {
     const clubs = await Club.findAll();
+    console.log('Clubs fetched successfully:', clubs);
     res.render('pages/clubs', { title: 'Book Clubs', clubs });
   } catch (error) {
     console.error('Error fetching clubs:', error);
