@@ -65,13 +65,14 @@ app.use((req, res, next) => {
 
 // Add middleware to make session data available to views
 app.use((req, res, next) => {
+  res.locals.loggedIn = req.session.loggedIn || false;
   res.locals.user = req.session.user || null;
   next();
 });
 
 const authRoutes = require('./routes/authRoutes');
 const homeRoutes = require('./routes/homeRoutes');
-const clubRoutes = require('./routes/clubRoutes');  // Ensure this line is correct
+const clubRoutes = require('./routes/clubRoutes');
 
 // Use routes
 app.use('/auth', authRoutes);

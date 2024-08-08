@@ -1,6 +1,5 @@
 const { User } = require('../models');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 
 const signup = async (req, res) => {
   try {
@@ -36,6 +35,7 @@ const login = async (req, res) => {
     }
 
     // Set session user
+    req.session.loggedIn = true;
     req.session.user = {
       id: user.id,
       username: user.username,

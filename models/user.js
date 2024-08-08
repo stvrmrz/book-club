@@ -1,4 +1,3 @@
-// models/user.js
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
@@ -31,8 +30,7 @@ User.init(
   },
   {
     sequelize,
-    modelName: 'user',
-    timestamps: true
+    modelName: 'user'
   }
 );
 

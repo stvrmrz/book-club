@@ -1,13 +1,12 @@
 <nav>
-    <ul>
-        <li><a href="/">Home</a></li>
-        {{#if user}}
-            <li>Welcome, {{user.username}}</li>
-            <li><form action="/auth/logout" method="POST"><button type="submit">Logout</button></form></li>
-        {{else}}
-            <li><a href="/auth/login">Login</a></li>
-            <li><a href="/auth/signup">Signup</a></li>
-        {{/if}}
-        <li><a href="/clubs">Clubs</a></li>
-    </ul>
+  <ul>
+    <li><a href="/">Home</a></li>
+    {{#if loggedIn}}
+      <li><a href="/clubs">View Book Clubs</a></li>
+      <li><a href="/auth/logout">Logout</a></li>
+    {{else}}
+      <li><a href="/auth/login">Login</a></li>
+      <li><a href="/auth/signup">Signup</a></li>
+    {{/if}}
+  </ul>
 </nav>
