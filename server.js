@@ -63,6 +63,12 @@ app.use((req, res, next) => {
   next();
 });
 
+// Add middleware to make session data available to views
+app.use((req, res, next) => {
+  res.locals.user = req.session.user || null;
+  next();
+});
+
 const routes = require('./routes');
 app.use(routes);
 
