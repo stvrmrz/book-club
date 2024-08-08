@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: book-club-app
+    env: node
+    plan: free
+    buildCommand: npm install && npx sequelize-cli db:migrate
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: bookclub_db
+          property: connectionString
+      - key: DB_USER
+        value: postgres
+      - key: DB_PASSWORD
+        value: Steve182189
+      - key: DB_NAME
+        value: book_club_manager_dev
+      - key: DB_HOST
+        value: 127.0.0.1
+      - key: JWT_SECRET
+        value: mySuperSecretKey
+      - key: SESSION_SECRET
+        value: anotherSuperSecretKey
+
+databases:
+  - name: bookclub_db
+    plan: free
+    region: oregon
+    postgresVersion: 13
