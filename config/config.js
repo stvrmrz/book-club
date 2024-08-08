@@ -7,7 +7,6 @@ module.exports = {
     database: process.env.DB_NAME,
     host: process.env.DB_HOST,
     dialect: 'postgres',
-    // SSL should be disabled for local development
     dialectOptions: {}
   },
   test: {

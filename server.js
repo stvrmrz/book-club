@@ -12,7 +12,8 @@ const PORT = process.env.PORT || 3000;
 const { Sequelize } = require('sequelize');
 
 // Determine the appropriate database connection settings based on the environment
-const dbConfig = process.env.DATABASE_URL ? {
+const isProduction = process.env.NODE_ENV === 'production';
+const dbConfig = isProduction ? {
   dialect: 'postgres',
   protocol: 'postgres',
   dialectOptions: {
@@ -20,8 +21,7 @@ const dbConfig = process.env.DATABASE_URL ? {
       require: true,
       rejectUnauthorized: false
     }
-  },
-  url: process.env.DATABASE_URL
+  }
 } : {
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
@@ -30,11 +30,9 @@ const dbConfig = process.env.DATABASE_URL ? {
   dialect: 'postgres'
 };
 
-console.log('DB Connection Details:', dbConfig);
+console.log('DB Connection Details:', isProduction ? process.env.DATABASE_URL : dbConfig);
 
-const sequelize = process.env.DATABASE_URL
-  ? new Sequelize(process.env.DATABASE_URL, dbConfig)
-  : new Sequelize(dbConfig);
+const sequelize = new Sequelize(isProduction ? process.env.DATABASE_URL : dbConfig);
 
 const sess = {
   secret: process.env.SESSION_SECRET,
