@@ -1,4 +1,3 @@
-// server.js
 const express = require('express');
 const session = require('express-session');
 const exphbs = require('express-handlebars');
@@ -11,7 +10,9 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const { Sequelize } = require('sequelize');
-const sequelize = new Sequelize(process.env.DATABASE_URL, {
+
+// Determine the appropriate database connection settings based on the environment
+const dbConfig = process.env.DATABASE_URL ? {
   dialect: 'postgres',
   protocol: 'postgres',
   dialectOptions: {
@@ -19,8 +20,21 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
       require: true,
       rejectUnauthorized: false
     }
-  }
-});
+  },
+  url: process.env.DATABASE_URL
+} : {
+  username: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  host: process.env.DB_HOST,
+  dialect: 'postgres'
+};
+
+console.log('DB Connection Details:', dbConfig);
+
+const sequelize = process.env.DATABASE_URL
+  ? new Sequelize(process.env.DATABASE_URL, dbConfig)
+  : new Sequelize(dbConfig);
 
 const sess = {
   secret: process.env.SESSION_SECRET,
@@ -52,12 +66,10 @@ app.use((req, res, next) => {
 const routes = require('./routes');
 app.use(routes);
 
-const User = require('./models/user'); // Ensure the User model is imported
-
 const startServer = async () => {
   try {
     await sequelize.authenticate();
-    await sequelize.sync({ force: false }); // Ensure the tables are created
+    await sequelize.sync({ force: false });
 
     console.log('Database synced successfully.');
 
