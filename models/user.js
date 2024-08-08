@@ -1,3 +1,4 @@
+// models/user.js
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
@@ -30,14 +31,9 @@ User.init(
   },
   {
     sequelize,
-    modelName: 'user'
+    modelName: 'user',
+    timestamps: true
   }
 );
-
-User.associate = (models) => {
-  User.hasMany(models.Book, {
-    foreignKey: 'userId'
-  });
-};
 
 module.exports = User;

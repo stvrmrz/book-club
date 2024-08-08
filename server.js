@@ -1,3 +1,4 @@
+// server.js
 const express = require('express');
 const session = require('express-session');
 const exphbs = require('express-handlebars');
@@ -10,7 +11,6 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const { Sequelize } = require('sequelize');
-
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: 'postgres',
   protocol: 'postgres',
@@ -52,10 +52,12 @@ app.use((req, res, next) => {
 const routes = require('./routes');
 app.use(routes);
 
+const User = require('./models/user'); // Ensure the User model is imported
+
 const startServer = async () => {
   try {
     await sequelize.authenticate();
-    await sequelize.sync({ force: false });
+    await sequelize.sync({ force: false }); // Ensure the tables are created
 
     console.log('Database synced successfully.');
 
