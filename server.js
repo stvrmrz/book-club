@@ -71,12 +71,12 @@ app.use((req, res, next) => {
 
 const authRoutes = require('./routes/authRoutes');
 const homeRoutes = require('./routes/homeRoutes');
-const clubsRoutes = require('./routes/clubsRoutes');
+const clubRoutes = require('./routes/clubRoutes');  // Ensure this line is correct
 
 // Use routes
 app.use('/auth', authRoutes);
 app.use('/', homeRoutes);
-app.use('/clubs', clubsRoutes);
+app.use('/clubs', clubRoutes);
 
 const startServer = async () => {
   try {
