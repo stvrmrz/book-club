@@ -3,7 +3,7 @@ services:
     name: book-club-app
     env: node
     plan: free
-    buildCommand: npm install && npx sequelize-cli db:migrate
+    buildCommand: NODE_ENV=production npm install && NODE_ENV=production npx sequelize-cli db:migrate
     startCommand: node server.js
     envVars:
       - key: NODE_ENV
