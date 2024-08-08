@@ -69,8 +69,14 @@ app.use((req, res, next) => {
   next();
 });
 
-const routes = require('./routes');
-app.use(routes);
+const authRoutes = require('./routes/authRoutes');
+const homeRoutes = require('./routes/homeRoutes');
+const clubsRoutes = require('./routes/clubsRoutes');
+
+// Use routes
+app.use('/auth', authRoutes);
+app.use('/', homeRoutes);
+app.use('/clubs', clubsRoutes);
 
 const startServer = async () => {
   try {
