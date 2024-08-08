@@ -63,6 +63,12 @@ app.use((req, res, next) => {
   next();
 });
 
+// Cache-Control Middleware to prevent caching during development
+app.use((req, res, next) => {
+  res.setHeader('Cache-Control', 'no-store');
+  next();
+});
+
 // Add middleware to make session data available to views
 app.use((req, res, next) => {
   res.locals.loggedIn = req.session.loggedIn || false;
