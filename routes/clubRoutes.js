@@ -5,8 +5,8 @@ const { Club } = require('../models');
 // Route to get all clubs
 router.get('/', isLoggedIn, async (req, res) => {
   try {
-    // Fetch all clubs without filtering by userId
     const clubs = await Club.findAll();
+    console.log('Fetched clubs:', clubs); // Debug line
     res.render('pages/clubs', { title: 'Book Clubs', clubs });
   } catch (error) {
     console.error('Error fetching clubs:', error);

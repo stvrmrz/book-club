@@ -24,7 +24,8 @@ Club.init(
       references: {
         model: 'users',
         key: 'id'
-      }
+      },
+      onDelete: 'CASCADE'
     }
   },
   {
