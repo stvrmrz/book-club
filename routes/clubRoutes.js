@@ -20,12 +20,12 @@ router.get('/new', isLoggedIn, (req, res) => {
 });
 
 // Route to create a new club
-router.post('/new', isLoggedIn, async (req, res) => {
+router.post('/', isLoggedIn, async (req, res) => {
   try {
     const newClub = await Club.create({
       name: req.body.name,
       description: req.body.description,
-      userId: req.session.user.id, // Associate club with the logged-in user
+      userId: req.session.user.id // Associate club with the logged-in user
     });
     res.redirect('/clubs');
   } catch (error) {
