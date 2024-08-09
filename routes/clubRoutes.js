@@ -5,12 +5,16 @@ const { Club } = require('../models');
 // Route to get all clubs
 router.get('/', isLoggedIn, async (req, res) => {
   try {
+    console.log('Fetching clubs from database...');
     const clubs = await Club.findAll();
     
-    // Log fetched clubs data
-    console.log('Fetched clubs:', JSON.stringify(clubs, null, 2));
+    // Convert each Sequelize instance to a plain object
+    const plainClubs = clubs.map(club => club.get({ plain: true }));
+    
+    // Log fetched plain clubs data
+    console.log('Fetched plain clubs:', plainClubs);
 
-    res.render('pages/clubs', { title: 'Book Clubs', clubs });
+    res.render('pages/clubs', { title: 'Book Clubs', clubs: plainClubs });
   } catch (error) {
     console.error('Error fetching clubs:', error);
     res.status(500).json({ error: 'Failed to fetch clubs' });
@@ -30,10 +34,7 @@ router.post('/', isLoggedIn, async (req, res) => {
       description: req.body.description,
       userId: req.session.user.id // Associate club with the logged-in user
     });
-
-    // Log the newly created club
-    console.log('New club created:', JSON.stringify(newClub, null, 2));
-
+    console.log('New club created:', newClub);
     res.redirect('/clubs');
   } catch (error) {
     console.error('Error creating club:', error);
