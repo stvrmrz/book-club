@@ -6,7 +6,10 @@ const { Club } = require('../models');
 router.get('/', isLoggedIn, async (req, res) => {
   try {
     const clubs = await Club.findAll();
-    console.log('Fetched clubs:', clubs); // Debug line
+    
+    // Log fetched clubs data
+    console.log('Fetched clubs:', JSON.stringify(clubs, null, 2));
+
     res.render('pages/clubs', { title: 'Book Clubs', clubs });
   } catch (error) {
     console.error('Error fetching clubs:', error);
@@ -27,6 +30,10 @@ router.post('/', isLoggedIn, async (req, res) => {
       description: req.body.description,
       userId: req.session.user.id // Associate club with the logged-in user
     });
+
+    // Log the newly created club
+    console.log('New club created:', JSON.stringify(newClub, null, 2));
+
     res.redirect('/clubs');
   } catch (error) {
     console.error('Error creating club:', error);

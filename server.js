@@ -73,6 +73,7 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
   res.locals.loggedIn = req.session.loggedIn || false;
   res.locals.user = req.session.user || null;
+  console.log('User session data:', req.session.user);
   next();
 });
 
